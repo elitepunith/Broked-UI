@@ -24,6 +24,8 @@ usernameInput.addEventListener('keypress', function (e) {
 
 function executeSantoryu() {
     const userText = usernameInput.value;
+    const lowerText = userText.toLowerCase().trim(); // Clean input for Easter Eggs
+
     if (!userText) { alert("A SWORDSMAN NEEDS A NAME."); return; }
 
     const originalBox = document.getElementById('target-box');
@@ -36,15 +38,55 @@ function executeSantoryu() {
     const sfxSlash = document.getElementById('sfx-slash');
     const sfxSheath = document.getElementById('sfx-sheath'); 
 
-    // 1. VOICE
-    sfxVoice.volume = 1.0;
-    sfxVoice.currentTime = 0;
-    sfxVoice.play();
-    
-    // UPGRADE: Dim background when he speaks
-    document.body.classList.add('dark-mode');
+    // --- EASTER EGG 1: KUINA (Refusal) ---
+    if (lowerText === "kuina") {
+        document.body.classList.add('dark-mode');
+        document.querySelector('#target-box h2').innerText = "I PROMISED...";
+        document.querySelector('#target-box p').innerText = "I cannot cut this.";
+        
+        setTimeout(() => {
+            document.body.classList.remove('dark-mode');
+            document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
+            document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
+            usernameInput.value = "";
+        }, 3000);
+        return; // Stop animation
+    }
 
-    // 2. WAIT FOR VOICE
+    // --- EASTER EGG 2: MIHAWK (Fear/Respect) ---
+    if (lowerText === "mihawk" || lowerText === "dracule mihawk") {
+        document.body.classList.add('dark-mode');
+        document.querySelector('#target-box h2').innerText = "TOO STRONG";
+        document.querySelector('#target-box p').innerText = "I am not ready yet.";
+        
+        sfxSheath.volume = 0.5;
+        sfxSheath.play(); // Just a click, no cut
+
+        setTimeout(() => {
+            document.body.classList.remove('dark-mode');
+            document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
+            document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
+            usernameInput.value = "";
+        }, 3000);
+        return; 
+    }
+
+    // --- EASTER EGG 3: SANJI (Instant Rage) ---
+    let delay = 1000;
+    if (lowerText === "sanji" || lowerText === "cook") {
+        delay = 0; // Instant cut
+        sfxVoice.src = ""; // Silence voice line
+    } else {
+        // Normal Behavior
+        sfxVoice.src = "voice.mp3"; 
+        sfxVoice.volume = 1.0;
+        sfxVoice.currentTime = 0;
+        sfxVoice.play();
+    }
+
+    // --- START ANIMATION ---
+    document.body.classList.add('dark-mode'); // Dim lights
+
     setTimeout(() => {
         sfxSlash.volume = 0.6;
         sfxSlash.currentTime = 0;
@@ -53,14 +95,13 @@ function executeSantoryu() {
         zoroLayer.style.display = 'block';
         zoroImg.classList.add('zoro-strike');
 
-        // 3. IMPACT (Adjusted to 450ms for Perfect Sync)
-        // This hits right as Zoro passes the middle of the screen
+        // IMPACT (450ms for Perfect Sync with 1.0s Speed)
         setTimeout(() => {
             document.body.classList.add('shake-screen');
             flash.classList.add('flash-active');
             originalBox.style.opacity = '0';
 
-            // Pass originalBox to calculate exact positions
+            // Pass originalBox for exact mobile cutting
             createClone(userText, 'anim-top', originalBox);
             createClone(userText, 'anim-bot', originalBox);
             createClone(userText, 'anim-left', originalBox);
@@ -71,13 +112,13 @@ function executeSantoryu() {
 
         }, 450); 
 
-    }, 1000);
+    }, delay);
 
-    // 4. RESET
+    // RESET SEQUENCE
     setTimeout(() => {
         sfxSheath.volume = 0.8;
         sfxSheath.play();
-    }, 5000);
+    }, delay + 4000);
 
     setTimeout(() => {
         container.style.transition = "opacity 1s";
@@ -89,22 +130,26 @@ function executeSantoryu() {
             zoroImg.classList.remove('zoro-strike');
             zoroLayer.style.display = 'none';
             document.body.classList.remove('shake-screen');
-            document.body.classList.remove('dark-mode'); // Reset dark mode
+            document.body.classList.remove('dark-mode');
             flash.classList.remove('flash-active');
+            
+            // Reset Text in case Easter Eggs fired
+            document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
+            document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
             
             container.style.opacity = "1";
             usernameInput.value = "";
             
         }, 1000);
 
-    }, 5500); 
+    }, delay + 4500); 
 }
 
 function createClone(text, animationClass, originalBox) {
     const div = document.createElement('div');
     div.className = `slice-clone ${animationClass}`;
     
-    // Exact sizing
+    // Exact sizing logic
     const rect = originalBox.getBoundingClientRect();
     div.style.width = rect.width + 'px';
     div.style.height = rect.height + 'px';
@@ -136,7 +181,7 @@ function createSlashLine(rotateDeg) {
         { width: '0px', opacity: 1 },
         { width: '100vmax', opacity: 0 }
     ], {
-        duration: 400, // Faster slash line
+        duration: 400, 
         easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)',
         fill: 'forwards'
     });
