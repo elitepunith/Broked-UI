@@ -1,7 +1,12 @@
 /* --- GLOBAL SETUP --- */
+* {
+    box-sizing: border-box; /* Crucial for alignment */
+}
+
 body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh; /* Use min-height to allow scrolling if needed */
+    height: 100%;
     background-color: #050505;
     background-image: radial-gradient(circle at center, #111 0%, #000 100%);
     display: flex;
@@ -9,8 +14,6 @@ body {
     align-items: center;
     font-family: 'Roboto Mono', monospace;
     overflow: hidden;
-
-    /* CUSTOM CURSOR */
     cursor: url('cursor.png'), auto; 
 }
 
@@ -34,13 +37,15 @@ body {
     100% { transform: translateY(-100vh) scale(0); opacity: 0; }
 }
 
-/* --- THE DIALOG BOX (RESPONSIVE) --- */
+/* --- THE DIALOG BOX (MOBILE FIXED) --- */
 .dialog-box {
     position: relative;
-    /* Responsive Width Logic */
+    /* Flexible Width & Height */
     width: 90%; 
     max-width: 500px;
-    height: 320px;
+    height: auto; /* Let content dictate height */
+    min-height: 250px; /* But keep it substantial */
+    padding: 20px 0; /* Add vertical breathing room */
     
     background: #0a0a0a;
     border: 3px solid #00ff88;
@@ -50,27 +55,37 @@ body {
     align-items: center;
     z-index: 10;
     transition: opacity 0.2s;
-    box-sizing: border-box;
 }
 
-.box-content { text-align: center; width: 100%; padding: 20px; box-sizing: border-box; }
+.box-content { 
+    text-align: center; 
+    width: 100%; 
+    padding: 10px 20px; 
+}
 
 h2 {
     font-family: 'Bangers', cursive;
-    font-size: 3.5rem;
+    /* Smooth scaling text */
+    font-size: clamp(2.5rem, 8vw, 3.5rem); 
     margin: 0;
     color: white;
     text-shadow: 4px 4px 0px #00ff88;
-    letter-spacing: 3px;
-    line-height: 1;
+    letter-spacing: 2px;
+    line-height: 1.1;
 }
 
-p { font-size: 0.9rem; color: #00ff88; margin: 15px 0 25px 0; font-weight: bold; letter-spacing: 2px; }
+p { 
+    font-size: 0.9rem; 
+    color: #00ff88; 
+    margin: 15px 0 25px 0; 
+    font-weight: bold; 
+    letter-spacing: 2px;
+}
 
 input {
     width: 100%;
     padding: 15px;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-family: 'Bangers';
     border: 2px solid #333;
     background: #111;
@@ -79,22 +94,23 @@ input {
     margin-bottom: 25px;
     outline: none;
     transition: 0.3s;
-    box-sizing: border-box;
     cursor: url('cursor.png'), text;
 }
 
 input:focus { border-color: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
 
 button {
-    padding: 15px 50px;
+    padding: 15px 40px;
     font-family: 'Bangers';
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     background: #00ff88;
     color: #000;
     border: none;
     transition: 0.2s;
     text-transform: uppercase;
     cursor: url('cursor.png'), pointer;
+    width: 100%; /* Full width button on mobile feels better */
+    max-width: 300px;
 }
 
 button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale(1.05); }
@@ -102,7 +118,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 
 /* --- THE SLICED CLONES --- */
 .slice-clone {
-    position: fixed; /* Fixed places them exactly over the original box */
+    position: fixed; 
     background: #0a0a0a;
     border: 3px solid #00ff88;
     box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
@@ -112,15 +128,14 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     pointer-events: none;
     overflow: hidden;
     z-index: 11;
-    box-sizing: border-box;
 }
 
-/* Inner Styles Match Dialog Box */
-.slice-clone .box-content { padding: 20px; text-align: center; width: 100%; box-sizing: border-box; }
-.slice-clone h2 { font-family: 'Bangers'; font-size: 3.5rem; margin: 0; color: white; text-shadow: 4px 4px 0px #00ff88; }
+/* Inner Styles match exactly */
+.slice-clone .box-content { padding: 10px 20px; text-align: center; width: 100%; }
+.slice-clone h2 { font-family: 'Bangers'; font-size: clamp(2.5rem, 8vw, 3.5rem); margin: 0; color: white; text-shadow: 4px 4px 0px #00ff88; letter-spacing: 2px; line-height: 1.1; }
 .slice-clone p { font-size: 0.9rem; color: #00ff88; margin: 15px 0 25px 0; font-weight: bold; letter-spacing: 2px; }
-.slice-clone input { width: 100%; padding: 15px; font-size: 1.5rem; font-family: 'Bangers'; border: 2px solid #333; background: #111; color: white; text-align: center; margin-bottom: 25px; }
-.slice-clone button { padding: 15px 50px; font-family: 'Bangers'; font-size: 1.8rem; background: #00ff88; color: #000; border: none; }
+.slice-clone input { width: 100%; padding: 15px; font-size: 1.2rem; font-family: 'Bangers'; border: 2px solid #333; background: #111; color: white; text-align: center; margin-bottom: 25px; }
+.slice-clone button { padding: 15px 40px; font-family: 'Bangers'; font-size: 1.5rem; background: #00ff88; color: #000; border: none; width: 100%; max-width: 300px; }
 
 
 /* --- ZORO LAYER --- */
@@ -139,13 +154,9 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     will-change: transform;
 }
 
-/* GHOST TRAIL & SPEED BLUR */
 .zoro-strike {
     animation: dashAcross 0.6s cubic-bezier(0,0,0.2,1) forwards;
-    filter: 
-        drop-shadow(20px 0 0 rgba(0, 255, 136, 0.4)) 
-        drop-shadow(40px 0 0 rgba(0, 255, 136, 0.2)) 
-        drop-shadow(0 0 20px #00ff88);
+    filter: blur(4px) drop-shadow(0 0 20px #00ff88);
 }
 
 @keyframes dashAcross {
@@ -155,8 +166,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { transform: translateX(-150vw) scaleX(-1); opacity: 0; }
 }
 
-
-/* --- ANIMATION FX --- */
+/* --- ANIMATIONS & FX --- */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 @keyframes shake {
     10%, 90% { transform: translate3d(-10px, 0, 0); }
@@ -177,7 +187,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { opacity: 0; background: #00ff88; mix-blend-mode: hard-light; }
 }
 
-/* --- CUT ANIMATIONS (EXPLOSIVE PHYSICS) --- */
+/* --- CUT ANIMATIONS --- */
 .anim-top { clip-path: polygon(0 0, 100% 0, 50% 50%); animation: flyTop 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards; }
 @keyframes flyTop { to { transform: translate(0, -150px) rotate(-5deg); opacity: 0; } }
 
@@ -194,19 +204,4 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     position: absolute; height: 6px; background: #fff;
     box-shadow: 0 0 10px #00ff88, 0 0 40px #00ff88;
     z-index: 50; transform-origin: center; border-radius: 50%; opacity: 0.9;
-}
-
-
-/* --- MOBILE FIXES --- */
-@media (max-width: 600px) {
-    h2 { font-size: 2.2rem; }
-    .dialog-box { height: auto; min-height: 280px; }
-    button { font-size: 1.4rem; padding: 12px 30px; }
-    
-    /* Shrink Zoro so he fits on phone screens */
-    #zoro-img { height: 350px; }
-    
-    /* Adjust clone text sizes to match */
-    .slice-clone h2 { font-size: 2.2rem; }
-    .slice-clone button { font-size: 1.4rem; padding: 12px 30px; }
 }
