@@ -173,7 +173,6 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     0% { transform: translateX(0); opacity: 0; }
     10% { opacity: 1; }
     80% { opacity: 1; }
-    /* Run to the right */
     100% { transform: translateX(200vw); opacity: 0; }
 }
 
@@ -218,4 +217,22 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     position: absolute; height: 6px; background: #fff;
     box-shadow: 0 0 10px #00ff88, 0 0 40px #00ff88;
     z-index: 50; transform-origin: center; border-radius: 50%; opacity: 0.9;
+}
+
+/* NEW: Haki Trail */
+.haki-trail {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    pointer-events: none; 
+    z-index: 9999;
+    box-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88;
+    animation: fadeTrail 0.5s linear forwards;
+}
+
+@keyframes fadeTrail {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(0); opacity: 0; }
 }

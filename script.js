@@ -237,3 +237,18 @@ function createSlashLine(deg) {
         fill: 'forwards'
     });
 }
+
+// NEW: Haki Trail Logic
+document.addEventListener('mousemove', (e) => {
+    // limit creation for performance
+    if (Math.random() > 0.3) return; 
+
+    const t = document.createElement('div');
+    t.classList.add('haki-trail');
+    t.style.left = e.clientX + 'px';
+    t.style.top = e.clientY + 'px';
+    
+    document.body.appendChild(t);
+
+    setTimeout(() => t.remove(), 500);
+});
