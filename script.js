@@ -193,7 +193,8 @@ function cutUI() {
 function createClones(text, originalBox) {
     const makePiece = (anim) => {
         const div = document.createElement('div');
-        div.className = `slice-clone ${anim}`;
+        // Add glitch-text class here
+        div.className = `slice-clone glitch-text ${anim}`;
         
         const rect = originalBox.getBoundingClientRect();
         div.style.width = rect.width + 'px';
@@ -238,7 +239,7 @@ function createSlashLine(deg) {
     });
 }
 
-// NEW: Haki Trail Logic
+// Haki Trail Logic
 document.addEventListener('mousemove', (e) => {
     // limit creation for performance
     if (Math.random() > 0.3) return; 

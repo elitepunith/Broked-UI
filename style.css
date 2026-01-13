@@ -144,10 +144,10 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 #zoro-img {
     position: absolute;
     bottom: 0; 
-    left: 100%; /* Hidden off-screen right */
+    left: 100%; 
     height: 500px; max-height: 50vh; 
     filter: drop-shadow(0 0 15px #00ff88); 
-    transform: scaleX(-1); /* Facing Left */
+    transform: scaleX(-1); 
     will-change: transform;
 }
 
@@ -163,7 +163,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { transform: translateX(-150vw) scaleX(-1); opacity: 0; }
 }
 
-/* Lost animation (Just movement, JS handles start position) */
+/* Lost animation */
 .zoro-lost-anim {
     animation: dashLost 2.5s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
     filter: blur(2px) drop-shadow(0 0 20px #00ff88);
@@ -235,4 +235,17 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 @keyframes fadeTrail {
     0% { transform: scale(1); opacity: 0.8; }
     100% { transform: scale(0); opacity: 0; }
+}
+
+/* NEW: Glitch Text Effect */
+.glitch-text h2, .glitch-text p {
+    animation: glitchRGB 0.2s infinite;
+}
+
+@keyframes glitchRGB {
+    0% { text-shadow: 2px 0 red, -2px 0 cyan; }
+    25% { text-shadow: -2px 0 red, 2px 0 cyan; }
+    50% { text-shadow: 2px 0 red, -2px 0 cyan; }
+    75% { text-shadow: -2px 0 red, 2px 0 cyan; }
+    100% { text-shadow: 0 0 0; }
 }
