@@ -36,10 +36,12 @@ function executeSantoryu() {
     const sfxSlash = document.getElementById('sfx-slash');
     const sfxSheath = document.getElementById('sfx-sheath'); 
 
+    // 1. VOICE
     sfxVoice.volume = 1.0;
     sfxVoice.currentTime = 0;
     sfxVoice.play();
 
+    // 2. WAIT FOR VOICE
     setTimeout(() => {
         sfxSlash.volume = 0.6;
         sfxSlash.currentTime = 0;
@@ -48,6 +50,7 @@ function executeSantoryu() {
         zoroLayer.style.display = 'block';
         zoroImg.classList.add('zoro-strike');
 
+        // 3. IMPACT (UPDATED TO 600ms)
         setTimeout(() => {
             document.body.classList.add('shake-screen');
             flash.classList.add('flash-active');
@@ -61,10 +64,11 @@ function executeSantoryu() {
             createSlashLine(45); 
             createSlashLine(-45);
 
-        }, 300); 
+        }, 600); // Trigger cut later because Zoro is moving slower
 
     }, 1000);
 
+    // 4. RESET
     setTimeout(() => {
         sfxSheath.volume = 0.8;
         sfxSheath.play();
@@ -94,8 +98,8 @@ function createClone(text, animationClass, originalBox) {
     const div = document.createElement('div');
     div.className = `slice-clone ${animationClass}`;
     
-    // Exact sizing from the live element ensures mobile perfection
     const rect = originalBox.getBoundingClientRect();
+    
     div.style.width = rect.width + 'px';
     div.style.height = rect.height + 'px';
     div.style.top = rect.top + 'px';

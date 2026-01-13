@@ -1,11 +1,9 @@
 /* --- GLOBAL SETUP --- */
-* {
-    box-sizing: border-box; /* Crucial for alignment */
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
-    min-height: 100vh; /* Use min-height to allow scrolling if needed */
+    min-height: 100vh;
     height: 100%;
     background-color: #050505;
     background-image: radial-gradient(circle at center, #111 0%, #000 100%);
@@ -37,16 +35,12 @@ body {
     100% { transform: translateY(-100vh) scale(0); opacity: 0; }
 }
 
-/* --- THE DIALOG BOX (MOBILE FIXED) --- */
+/* --- THE DIALOG BOX --- */
 .dialog-box {
     position: relative;
-    /* Flexible Width & Height */
-    width: 90%; 
-    max-width: 500px;
-    height: auto; /* Let content dictate height */
-    min-height: 250px; /* But keep it substantial */
-    padding: 20px 0; /* Add vertical breathing room */
-    
+    width: min(90%, 500px); 
+    min-height: 250px;
+    padding: 25px 20px;
     background: #0a0a0a;
     border: 3px solid #00ff88;
     box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
@@ -55,62 +49,59 @@ body {
     align-items: center;
     z-index: 10;
     transition: opacity 0.2s;
+    margin: 0 auto; 
 }
 
-.box-content { 
-    text-align: center; 
-    width: 100%; 
-    padding: 10px 20px; 
-}
+.box-content { text-align: center; width: 100%; }
 
 h2 {
     font-family: 'Bangers', cursive;
-    /* Smooth scaling text */
-    font-size: clamp(2.5rem, 8vw, 3.5rem); 
-    margin: 0;
+    font-size: clamp(2.5rem, 10vw, 3.5rem); 
+    margin: 0 0 10px 0;
     color: white;
-    text-shadow: 4px 4px 0px #00ff88;
+    text-shadow: 3px 3px 0px #00ff88;
     letter-spacing: 2px;
     line-height: 1.1;
 }
 
 p { 
-    font-size: 0.9rem; 
+    font-size: 0.85rem; 
     color: #00ff88; 
-    margin: 15px 0 25px 0; 
+    margin: 0 0 25px 0; 
     font-weight: bold; 
     letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 input {
     width: 100%;
     padding: 15px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-family: 'Bangers';
     border: 2px solid #333;
     background: #111;
     color: white;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     outline: none;
     transition: 0.3s;
     cursor: url('cursor.png'), text;
 }
 
+input::placeholder { color: rgba(0, 255, 136, 0.4); font-family: 'Bangers'; letter-spacing: 1px; }
 input:focus { border-color: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
 
 button {
-    padding: 15px 40px;
+    width: 100%;
+    padding: 15px;
     font-family: 'Bangers';
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     background: #00ff88;
     color: #000;
     border: none;
     transition: 0.2s;
     text-transform: uppercase;
     cursor: url('cursor.png'), pointer;
-    width: 100%; /* Full width button on mobile feels better */
-    max-width: 300px;
 }
 
 button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale(1.05); }
@@ -128,14 +119,14 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     pointer-events: none;
     overflow: hidden;
     z-index: 11;
+    padding: 25px 20px; 
 }
 
-/* Inner Styles match exactly */
-.slice-clone .box-content { padding: 10px 20px; text-align: center; width: 100%; }
-.slice-clone h2 { font-family: 'Bangers'; font-size: clamp(2.5rem, 8vw, 3.5rem); margin: 0; color: white; text-shadow: 4px 4px 0px #00ff88; letter-spacing: 2px; line-height: 1.1; }
-.slice-clone p { font-size: 0.9rem; color: #00ff88; margin: 15px 0 25px 0; font-weight: bold; letter-spacing: 2px; }
-.slice-clone input { width: 100%; padding: 15px; font-size: 1.2rem; font-family: 'Bangers'; border: 2px solid #333; background: #111; color: white; text-align: center; margin-bottom: 25px; }
-.slice-clone button { padding: 15px 40px; font-family: 'Bangers'; font-size: 1.5rem; background: #00ff88; color: #000; border: none; width: 100%; max-width: 300px; }
+.slice-clone .box-content { text-align: center; width: 100%; }
+.slice-clone h2 { font-family: 'Bangers'; font-size: clamp(2.5rem, 10vw, 3.5rem); margin: 0 0 10px 0; color: white; text-shadow: 3px 3px 0px #00ff88; letter-spacing: 2px; line-height: 1.1; }
+.slice-clone p { font-size: 0.85rem; color: #00ff88; margin: 0 0 25px 0; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+.slice-clone input { width: 100%; padding: 15px; font-size: 1.3rem; font-family: 'Bangers'; border: 2px solid #333; background: #111; color: white; text-align: center; margin-bottom: 20px; }
+.slice-clone button { width: 100%; padding: 15px; font-family: 'Bangers'; font-size: 1.6rem; background: #00ff88; color: #000; border: none; }
 
 
 /* --- ZORO LAYER --- */
@@ -147,16 +138,17 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 
 #zoro-img {
     position: absolute;
-    bottom: 0; right: -100vw; 
+    bottom: 0; left: 100%; 
     height: 500px; max-height: 50vh; 
     filter: drop-shadow(0 0 15px #00ff88); 
     transform: scaleX(-1);
     will-change: transform;
 }
 
+/* UPDATED: Slower speed (1.2s) */
 .zoro-strike {
-    animation: dashAcross 0.6s cubic-bezier(0,0,0.2,1) forwards;
-    filter: blur(4px) drop-shadow(0 0 20px #00ff88);
+    animation: dashAcross 1.2s cubic-bezier(0,0,0.2,1) forwards;
+    filter: blur(2px) drop-shadow(0 0 20px #00ff88);
 }
 
 @keyframes dashAcross {
@@ -166,7 +158,8 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { transform: translateX(-150vw) scaleX(-1); opacity: 0; }
 }
 
-/* --- ANIMATIONS & FX --- */
+
+/* --- FX --- */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 @keyframes shake {
     10%, 90% { transform: translate3d(-10px, 0, 0); }
