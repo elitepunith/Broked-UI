@@ -3,19 +3,26 @@
 
 body {
     margin: 0;
-    min-height: 100vh;
-    height: 100%;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
     background-color: #050505;
     background-image: radial-gradient(circle at center, #111 0%, #000 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Roboto Mono', monospace;
-    overflow: hidden;
     cursor: url('cursor.png'), auto; 
+    transition: background 0.5s; /* Smooth dark transition */
 }
 
-/* --- HAKI PARTICLES --- */
+/* UPGRADE: Darken Background during Haki */
+body.dark-mode {
+    background-image: none;
+    background-color: #000;
+}
+
+/* ... (Haki Particles - SAME) ... */
 .particle {
     position: absolute;
     bottom: -10px;
@@ -28,14 +35,13 @@ body {
     animation: floatUp linear forwards;
     z-index: 1;
 }
-
 @keyframes floatUp {
     0% { transform: translateY(0) scale(1); opacity: 0; }
     10% { opacity: 0.8; }
     100% { transform: translateY(-100vh) scale(0); opacity: 0; }
 }
 
-/* --- THE DIALOG BOX --- */
+/* ... (Dialog Box - SAME) ... */
 .dialog-box {
     position: relative;
     width: min(90%, 500px); 
@@ -51,9 +57,7 @@ body {
     transition: opacity 0.2s;
     margin: 0 auto; 
 }
-
 .box-content { text-align: center; width: 100%; }
-
 h2 {
     font-family: 'Bangers', cursive;
     font-size: clamp(2.5rem, 10vw, 3.5rem); 
@@ -63,16 +67,7 @@ h2 {
     letter-spacing: 2px;
     line-height: 1.1;
 }
-
-p { 
-    font-size: 0.85rem; 
-    color: #00ff88; 
-    margin: 0 0 25px 0; 
-    font-weight: bold; 
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
+p { font-size: 0.85rem; color: #00ff88; margin: 0 0 25px 0; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
 input {
     width: 100%;
     padding: 15px;
@@ -87,10 +82,8 @@ input {
     transition: 0.3s;
     cursor: url('cursor.png'), text;
 }
-
 input::placeholder { color: rgba(0, 255, 136, 0.4); font-family: 'Bangers'; letter-spacing: 1px; }
 input:focus { border-color: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
-
 button {
     width: 100%;
     padding: 15px;
@@ -103,11 +96,9 @@ button {
     text-transform: uppercase;
     cursor: url('cursor.png'), pointer;
 }
-
 button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale(1.05); }
 
-
-/* --- THE SLICED CLONES --- */
+/* ... (Sliced Clones - SAME) ... */
 .slice-clone {
     position: fixed; 
     background: #0a0a0a;
@@ -121,13 +112,11 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     z-index: 11;
     padding: 25px 20px; 
 }
-
 .slice-clone .box-content { text-align: center; width: 100%; }
 .slice-clone h2 { font-family: 'Bangers'; font-size: clamp(2.5rem, 10vw, 3.5rem); margin: 0 0 10px 0; color: white; text-shadow: 3px 3px 0px #00ff88; letter-spacing: 2px; line-height: 1.1; }
 .slice-clone p { font-size: 0.85rem; color: #00ff88; margin: 0 0 25px 0; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
 .slice-clone input { width: 100%; padding: 15px; font-size: 1.3rem; font-family: 'Bangers'; border: 2px solid #333; background: #111; color: white; text-align: center; margin-bottom: 20px; }
 .slice-clone button { width: 100%; padding: 15px; font-family: 'Bangers'; font-size: 1.6rem; background: #00ff88; color: #000; border: none; }
-
 
 /* --- ZORO LAYER --- */
 #zoro-layer {
@@ -135,19 +124,19 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     bottom: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none; z-index: 100; display: none; 
 }
-
 #zoro-img {
     position: absolute;
-    bottom: 0; left: 100%; 
+    bottom: 0; left: 100%; /* Mobile Safe */
     height: 500px; max-height: 50vh; 
     filter: drop-shadow(0 0 15px #00ff88); 
     transform: scaleX(-1);
     will-change: transform;
 }
 
-/* UPDATED: Slower speed (1.2s) */
+/* SYNC FIX: Speed changed to 1.0s for snappiness */
 .zoro-strike {
-    animation: dashAcross 1.2s cubic-bezier(0,0,0.2,1) forwards;
+    animation: dashAcross 1.0s cubic-bezier(0,0,0.2,1) forwards;
+    /* Reduced blur slightly so he looks sharper */
     filter: blur(2px) drop-shadow(0 0 20px #00ff88);
 }
 
@@ -158,8 +147,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { transform: translateX(-150vw) scaleX(-1); opacity: 0; }
 }
 
-
-/* --- FX --- */
+/* ... (Animations - SAME) ... */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 @keyframes shake {
     10%, 90% { transform: translate3d(-10px, 0, 0); }
@@ -167,12 +155,10 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     30%, 50%, 70% { transform: translate3d(-10px, -10px, 0); }
     40%, 60% { transform: translate3d(10px, 10px, 0); }
 }
-
 #flash-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #fff; opacity: 0; pointer-events: none; z-index: 999; mix-blend-mode: normal;
 }
-
 .flash-active { animation: impactFlash 0.8s ease-out; }
 @keyframes impactFlash {
     0% { opacity: 1; background: #fff; mix-blend-mode: normal; } 
@@ -197,4 +183,13 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     position: absolute; height: 6px; background: #fff;
     box-shadow: 0 0 10px #00ff88, 0 0 40px #00ff88;
     z-index: 50; transform-origin: center; border-radius: 50%; opacity: 0.9;
+}
+
+@media (max-width: 600px) {
+    h2 { font-size: 2.2rem; }
+    .dialog-box { height: auto; min-height: 280px; }
+    button { font-size: 1.4rem; padding: 12px 30px; }
+    #zoro-img { height: 350px; }
+    .slice-clone h2 { font-size: 2.2rem; }
+    .slice-clone button { font-size: 1.4rem; padding: 12px 30px; }
 }

@@ -40,6 +40,9 @@ function executeSantoryu() {
     sfxVoice.volume = 1.0;
     sfxVoice.currentTime = 0;
     sfxVoice.play();
+    
+    // UPGRADE: Dim background when he speaks
+    document.body.classList.add('dark-mode');
 
     // 2. WAIT FOR VOICE
     setTimeout(() => {
@@ -50,12 +53,14 @@ function executeSantoryu() {
         zoroLayer.style.display = 'block';
         zoroImg.classList.add('zoro-strike');
 
-        // 3. IMPACT (UPDATED TO 600ms)
+        // 3. IMPACT (Adjusted to 450ms for Perfect Sync)
+        // This hits right as Zoro passes the middle of the screen
         setTimeout(() => {
             document.body.classList.add('shake-screen');
             flash.classList.add('flash-active');
             originalBox.style.opacity = '0';
 
+            // Pass originalBox to calculate exact positions
             createClone(userText, 'anim-top', originalBox);
             createClone(userText, 'anim-bot', originalBox);
             createClone(userText, 'anim-left', originalBox);
@@ -64,7 +69,7 @@ function executeSantoryu() {
             createSlashLine(45); 
             createSlashLine(-45);
 
-        }, 600); // Trigger cut later because Zoro is moving slower
+        }, 450); 
 
     }, 1000);
 
@@ -84,6 +89,7 @@ function executeSantoryu() {
             zoroImg.classList.remove('zoro-strike');
             zoroLayer.style.display = 'none';
             document.body.classList.remove('shake-screen');
+            document.body.classList.remove('dark-mode'); // Reset dark mode
             flash.classList.remove('flash-active');
             
             container.style.opacity = "1";
@@ -98,8 +104,8 @@ function createClone(text, animationClass, originalBox) {
     const div = document.createElement('div');
     div.className = `slice-clone ${animationClass}`;
     
+    // Exact sizing
     const rect = originalBox.getBoundingClientRect();
-    
     div.style.width = rect.width + 'px';
     div.style.height = rect.height + 'px';
     div.style.top = rect.top + 'px';
@@ -130,7 +136,7 @@ function createSlashLine(rotateDeg) {
         { width: '0px', opacity: 1 },
         { width: '100vmax', opacity: 0 }
     ], {
-        duration: 500, 
+        duration: 400, // Faster slash line
         easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)',
         fill: 'forwards'
     });
