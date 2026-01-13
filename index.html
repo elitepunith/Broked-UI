@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Line Tasks</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="background-overlay"></div>
+
+    <div class="main-container">
+        <header>
+            <div class="jolly-roger">☠️</div>
+            <h1>STRAW HAT <br><span>BOUNTY BOARD</span></h1>
+        </header>
+
+        <div class="input-section">
+            <div class="input-wrapper">
+                <label>NEW BOUNTY (TASK)</label>
+                <input type="text" id="taskInput" placeholder="Enter target..." oninput="gumGumStretch(this)">
+            </div>
+            
+            <button id="addBtn" onmouseover="zoroLost()">
+                <span>⚔️ POST BOUNTY</span>
+            </button>
+        </div>
+
+        <div id="bounty-list" class="bounty-grid">
+            </div>
+    </div>
+
+    <div id="luffy-fist" class="hidden-fist">👊</div>
+
+    <script src="script.js"></script>
+</body>
+</html>

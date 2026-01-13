@@ -1,0 +1,182 @@
+/* --- RESET & BASICS --- */
+:root {
+    --luffy-red: #d62828;
+    --luffy-yellow: #fca311;
+    --paper-color: #f4e4bc;
+    --wood-color: #4a3b2a;
+}
+
+body {
+    margin: 0;
+    font-family: 'Bangers', cursive;
+    background-color: var(--wood-color);
+    background-image: repeating-linear-gradient(45deg, #3d2e1e 25%, transparent 25%, transparent 75%, #3d2e1e 75%, #3d2e1e), repeating-linear-gradient(45deg, #3d2e1e 25%, #4a3b2a 25%, #4a3b2a 75%, #3d2e1e 75%, #3d2e1e);
+    background-position: 0 0, 10px 10px;
+    background-size: 20px 20px;
+    color: #333;
+    overflow-x: hidden; /* Important for the stretching glitch */
+    height: 100vh;
+}
+
+/* --- LAYOUT --- */
+.main-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+header h1 {
+    font-size: 4rem;
+    color: white;
+    text-shadow: 4px 4px var(--luffy-red);
+    margin: 0;
+    line-height: 0.9;
+}
+header h1 span {
+    font-size: 2.5rem;
+    color: var(--luffy-yellow);
+    text-shadow: 2px 2px black;
+}
+
+.jolly-roger {
+    font-size: 5rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* --- THE GUM-GUM INPUT --- */
+.input-section {
+    background: var(--paper-color);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    margin-top: 20px;
+    position: relative;
+    border: 4px solid #333;
+    /* Paper Texture effect */
+    background-image: radial-gradient(#d3c39a 1px, transparent 1px);
+    background-size: 10px 10px;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+input {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.2rem;
+    padding: 10px;
+    border: 3px solid black;
+    width: 100%; /* Default width */
+    transition: width 0.1s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bouncy transition */
+    box-sizing: border-box;
+}
+
+/* --- THE ZORO BUTTON --- */
+button#addBtn {
+    background: var(--luffy-red);
+    color: white;
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    padding: 10px 30px;
+    border: 3px solid black;
+    cursor: pointer;
+    position: relative; /* Needed for movement */
+    transition: transform 0.2s;
+    box-shadow: 5px 5px 0px black;
+}
+
+button#addBtn:active {
+    transform: scale(0.95);
+    box-shadow: 2px 2px 0px black;
+}
+
+/* --- BOUNTY LIST --- */
+.bounty-grid {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.wanted-poster {
+    background: var(--paper-color);
+    padding: 15px;
+    border: 3px solid #5a4632;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    transform: rotate(-1deg);
+    transition: transform 0.3s;
+}
+
+.wanted-poster:hover {
+    transform: rotate(1deg) scale(1.02);
+}
+
+.bounty-text {
+    text-align: left;
+}
+
+.berry-amount {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--luffy-red);
+}
+
+.delete-btn {
+    background: black;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: 'Bangers', cursive;
+}
+
+/* --- ANIMATIONS & EFFECTS --- */
+
+/* The Fist */
+.hidden-fist {
+    position: fixed;
+    font-size: 10rem;
+    top: 50%;
+    left: -200px; /* Start off screen */
+    z-index: 100;
+    pointer-events: none;
+    transition: transform 0.2s linear;
+}
+
+/* Animation class added by JS */
+.gum-gum-pistol {
+    animation: punch 0.5s forwards;
+}
+
+@keyframes punch {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(120vw) scale(1.5); } /* Fly across screen */
+    100% { transform: translateX(120vw); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Broken Effect for deleted items */
+.smashed {
+    transform: rotate(45deg) scale(0.5);
+    opacity: 0;
+    transition: all 0.2s;
+}
