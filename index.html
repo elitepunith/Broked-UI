@@ -3,36 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grand Line Tasks</title>
+    <title>Zoro Santoryu Slicer</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="background-overlay"></div>
+    <div id="flash-overlay"></div>
 
-    <div class="main-container">
-        <header>
-            <div class="jolly-roger">☠️</div>
-            <h1>STRAW HAT <br><span>BOUNTY BOARD</span></h1>
-        </header>
-
-        <div class="input-section">
-            <div class="input-wrapper">
-                <label>NEW BOUNTY (TASK)</label>
-                <input type="text" id="taskInput" placeholder="Enter target..." oninput="gumGumStretch(this)">
+    <div class="container">
+        
+        <div id="target-box" class="dialog-box">
+            <div class="box-content">
+                <h2>WHO ARE YOU?</h2>
+                <p>Enter your name to challenge Roronoa Zoro.</p>
+                <input type="text" id="username" placeholder="Enter Name..." autocomplete="off">
+                <button id="submitBtn">CHALLENGE</button>
             </div>
-            
-            <button id="addBtn" onmouseover="zoroLost()">
-                <span>⚔️ POST BOUNTY</span>
-            </button>
         </div>
 
-        <div id="bounty-list" class="bounty-grid">
-            </div>
+        <div id="slice-container"></div>
+
     </div>
 
-    <div id="luffy-fist" class="hidden-fist">👊</div>
+    <div id="zoro-layer">
+        <img src="zoro.png" alt="Zoro Slash" id="zoro-img">
+    </div>
+
+    <audio id="sfx-slash" src="slash.mp3"></audio>
 
     <script src="script.js"></script>
 </body>
