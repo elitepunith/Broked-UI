@@ -5,66 +5,101 @@ function executeSantoryu() {
     const userText = inputField.value;
 
     if (!userText) {
-        alert("A swordsman needs a name!");
+        alert("A SWORDSMAN NEEDS A NAME.");
         return;
     }
 
-    // 1. SETUP ASSETS
     const originalBox = document.getElementById('target-box');
     const container = document.querySelector('.container');
     const zoroLayer = document.getElementById('zoro-layer');
     const zoroImg = document.getElementById('zoro-img');
     const flash = document.getElementById('flash-overlay');
-    const sfx = document.getElementById('sfx-slash');
-
-    // 2. TRIGGER SOUND & ZORO
-    sfx.volume = 0.5;
-    sfx.currentTime = 0; // Reset sound if played before
-    sfx.play();
     
-    zoroLayer.style.display = 'block';
-    zoroImg.classList.add('zoro-strike');
+    // AUDIO
+    const sfxVoice = document.getElementById('sfx-voice');
+    const sfxSlash = document.getElementById('sfx-slash');
 
-    // 3. WAIT FOR IMPACT (Synced with Slow Zoro)
-    // Zoro takes 1.5s to cross. Cut happens around 600ms.
+    // 1. UPGRADE 3: VOICE LINE START
+    sfxVoice.volume = 1.0;
+    sfxVoice.currentTime = 0;
+    sfxVoice.play();
+
+    // 2. WAIT FOR VOICE (e.g. 1 second) BEFORE ATTACK
     setTimeout(() => {
-        // A. Flash Screen
-        flash.classList.add('flash-active');
+        
+        // A. Trigger Slash Sound & Dash
+        sfxSlash.volume = 0.6;
+        sfxSlash.currentTime = 0;
+        sfxSlash.play();
+        
+        zoroLayer.style.display = 'block';
+        zoroImg.classList.add('zoro-strike');
 
-        // B. Hide Real Box
-        originalBox.style.opacity = '0';
+        // B. The Impact (Synced to when Zoro hits center - approx 600ms)
+        setTimeout(() => {
+            
+            // UPGRADE 1: SCREEN SHAKE
+            document.body.classList.add('shake-screen');
 
-        // C. Create 3 Clones (Top, Mid, Bottom)
-        createClone(userText, 'anim-top');
-        createClone(userText, 'anim-mid');
-        createClone(userText, 'anim-bot');
+            // Flash & Hide Real Box
+            flash.classList.add('flash-active');
+            originalBox.style.opacity = '0';
 
-        // D. Create Green Haki Slash Lines (Slow & Glowing)
-        createSlashLine(32, -10); // Top cut
-        createSlashLine(62, 5);   // Bottom cut
+            // Create Pieces
+            createClone(userText, 'anim-top');
+            createClone(userText, 'anim-mid');
+            createClone(userText, 'anim-bot');
 
-    }, 600); 
+            // UPGRADE 2: SLASH LINES
+            createSlashLine(35, -6); 
+            createSlashLine(75, -6);   
 
-    // 4. RELOAD PAGE (Wait for slow motion to finish)
+        }, 600); 
+
+    }, 800); // 800ms delay for voice to say "Santoryu..."
+
+
+    // 3. SMOOTH RESET LOGIC
     setTimeout(() => {
-        window.location.reload();
-    }, 4000); 
+        // Fade out
+        container.style.transition = "opacity 1s";
+        container.style.opacity = "0";
+
+        setTimeout(() => {
+            // Clean up DOM
+            document.getElementById('slice-container').innerHTML = '';
+            
+            // Reset Box
+            originalBox.style.opacity = '1';
+            
+            // Reset Zoro
+            zoroImg.classList.remove('zoro-strike');
+            zoroLayer.style.display = 'none';
+            
+            // Reset Classes
+            document.body.classList.remove('shake-screen');
+            flash.classList.remove('flash-active');
+            
+            // Fade In
+            container.style.opacity = "1";
+            inputField.value = "";
+            
+        }, 1000);
+
+    }, 5500); // Wait 5.5s total
 }
 
 function createClone(text, animationClass) {
     const div = document.createElement('div');
     div.className = `slice-clone ${animationClass}`;
-    
-    // Identical HTML structure to mirror the original
     div.innerHTML = `
         <div class="box-content">
-            <h2>WHO ARE YOU?</h2>
-            <p>Enter your name to challenge Roronoa Zoro.</p>
+            <h2>RORONOA ZORO</h2>
+            <p>ONLY THE STRONG MAY ENTER.</p>
             <input type="text" value="${text}" readonly>
             <button>CHALLENGE</button>
         </div>
     `;
-
     document.getElementById('slice-container').appendChild(div);
 }
 
@@ -73,18 +108,17 @@ function createSlashLine(topPercent, rotateDeg) {
     line.className = 'slash-line';
     
     line.style.top = topPercent + '%';
-    line.style.left = '0';
+    line.style.left = '-10%'; 
     line.style.width = '0%';
     line.style.transform = `rotate(${rotateDeg}deg)`;
 
     document.getElementById('slice-container').appendChild(line);
 
-    // Slower Slash Line Animation
     line.animate([
         { width: '0%', opacity: 1 },
-        { width: '150%', opacity: 0 }
+        { width: '120%', opacity: 0 } 
     ], {
-        duration: 800, // Visible for longer
+        duration: 900, 
         easing: 'ease-out',
         fill: 'forwards'
     });
