@@ -101,9 +101,8 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 
 
 /* --- THE SLICED CLONES --- */
-/* Fixed positioning ensures they overlay perfectly on mobile */
 .slice-clone {
-    position: fixed; 
+    position: fixed; /* Fixed places them exactly over the original box */
     background: #0a0a0a;
     border: 3px solid #00ff88;
     box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
@@ -116,7 +115,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     box-sizing: border-box;
 }
 
-/* Match inner styles */
+/* Inner Styles Match Dialog Box */
 .slice-clone .box-content { padding: 20px; text-align: center; width: 100%; box-sizing: border-box; }
 .slice-clone h2 { font-family: 'Bangers'; font-size: 3.5rem; margin: 0; color: white; text-shadow: 4px 4px 0px #00ff88; }
 .slice-clone p { font-size: 0.9rem; color: #00ff88; margin: 15px 0 25px 0; font-weight: bold; letter-spacing: 2px; }
@@ -140,9 +139,13 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     will-change: transform;
 }
 
+/* GHOST TRAIL & SPEED BLUR */
 .zoro-strike {
     animation: dashAcross 0.6s cubic-bezier(0,0,0.2,1) forwards;
-    filter: blur(4px) drop-shadow(0 0 20px #00ff88);
+    filter: 
+        drop-shadow(20px 0 0 rgba(0, 255, 136, 0.4)) 
+        drop-shadow(40px 0 0 rgba(0, 255, 136, 0.2)) 
+        drop-shadow(0 0 20px #00ff88);
 }
 
 @keyframes dashAcross {
@@ -153,7 +156,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 }
 
 
-/* --- FX --- */
+/* --- ANIMATION FX --- */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 @keyframes shake {
     10%, 90% { transform: translate3d(-10px, 0, 0); }
@@ -174,7 +177,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { opacity: 0; background: #00ff88; mix-blend-mode: hard-light; }
 }
 
-/* --- CUT ANIMATIONS --- */
+/* --- CUT ANIMATIONS (EXPLOSIVE PHYSICS) --- */
 .anim-top { clip-path: polygon(0 0, 100% 0, 50% 50%); animation: flyTop 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards; }
 @keyframes flyTop { to { transform: translate(0, -150px) rotate(-5deg); opacity: 0; } }
 
@@ -194,16 +197,16 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 }
 
 
-/* --- MOBILE MEDIA QUERY (The Fix) --- */
+/* --- MOBILE FIXES --- */
 @media (max-width: 600px) {
     h2 { font-size: 2.2rem; }
     .dialog-box { height: auto; min-height: 280px; }
     button { font-size: 1.4rem; padding: 12px 30px; }
     
-    /* Shrink Zoro on mobile so he fits */
+    /* Shrink Zoro so he fits on phone screens */
     #zoro-img { height: 350px; }
     
-    /* Adjust clone text sizes too */
+    /* Adjust clone text sizes to match */
     .slice-clone h2 { font-size: 2.2rem; }
     .slice-clone button { font-size: 1.4rem; padding: 12px 30px; }
 }

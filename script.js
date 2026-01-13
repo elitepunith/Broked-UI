@@ -14,7 +14,7 @@ function createParticle() {
 }
 
 
-// --- 2. LOGIC ---
+// --- 2. MAIN LOGIC ---
 const submitBtn = document.getElementById('submitBtn');
 const usernameInput = document.getElementById('username');
 
@@ -37,12 +37,12 @@ function executeSantoryu() {
     const sfxSlash = document.getElementById('sfx-slash');
     const sfxSheath = document.getElementById('sfx-sheath'); 
 
-    // 1. VOICE
+    // 1. VOICE START
     sfxVoice.volume = 1.0;
     sfxVoice.currentTime = 0;
     sfxVoice.play();
 
-    // 2. DELAY FOR VOICE
+    // 2. WAIT FOR VOICE
     setTimeout(() => {
         sfxSlash.volume = 0.6;
         sfxSlash.currentTime = 0;
@@ -51,13 +51,13 @@ function executeSantoryu() {
         zoroLayer.style.display = 'block';
         zoroImg.classList.add('zoro-strike');
 
-        // 3. IMPACT (300ms)
+        // 3. IMPACT (300ms later)
         setTimeout(() => {
             document.body.classList.add('shake-screen');
             flash.classList.add('flash-active');
             originalBox.style.opacity = '0';
 
-            // IMPORTANT: Calculate layout here for mobile accuracy
+            // Pass originalBox to calculate exact positions
             createClone(userText, 'anim-top', originalBox);
             createClone(userText, 'anim-bot', originalBox);
             createClone(userText, 'anim-left', originalBox);
@@ -71,7 +71,7 @@ function executeSantoryu() {
     }, 1000);
 
 
-    // 4. RESET
+    // 4. RESET SEQUENCE
     setTimeout(() => {
         sfxSheath.volume = 0.8;
         sfxSheath.play();
@@ -97,12 +97,11 @@ function executeSantoryu() {
     }, 5500); 
 }
 
-// Function to clone box exactly where it stands on screen
+// Clone Helper: Gets exact screen coordinates for mobile accuracy
 function createClone(text, animationClass, originalBox) {
     const div = document.createElement('div');
     div.className = `slice-clone ${animationClass}`;
     
-    // Get Coordinates (Critical for Mobile)
     const rect = originalBox.getBoundingClientRect();
     div.style.width = rect.width + 'px';
     div.style.height = rect.height + 'px';
