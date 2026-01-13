@@ -1,4 +1,3 @@
-/* --- GLOBAL SETUP --- */
 * { box-sizing: border-box; }
 
 body {
@@ -16,13 +15,12 @@ body {
     transition: background 0.5s; 
 }
 
-/* HAKI PRESSURE (Dark Mode) */
 body.dark-mode {
     background-image: none;
     background-color: #000;
 }
 
-/* --- HAKI PARTICLES --- */
+/* particles */
 .particle {
     position: absolute;
     bottom: -10px;
@@ -42,7 +40,7 @@ body.dark-mode {
     100% { transform: translateY(-100vh) scale(0); opacity: 0; }
 }
 
-/* --- THE DIALOG BOX --- */
+/* Main Box */
 .dialog-box {
     position: relative;
     width: min(90%, 500px); 
@@ -113,8 +111,7 @@ button {
 
 button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale(1.05); }
 
-
-/* --- THE SLICED CLONES --- */
+/* Sliced Pieces */
 .slice-clone {
     position: fixed; 
     background: #0a0a0a;
@@ -136,7 +133,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 .slice-clone button { width: 100%; padding: 15px; font-family: 'Bangers'; font-size: 1.6rem; background: #00ff88; color: #000; border: none; }
 
 
-/* --- ZORO LAYER --- */
+/* Zoro Image Layer */
 #zoro-layer {
     position: fixed;
     bottom: 0; left: 0; width: 100%; height: 100%;
@@ -146,18 +143,18 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 #zoro-img {
     position: absolute;
     bottom: 0; 
-    left: 100%; /* Default Hidden Right */
+    left: 100%; /* Hidden right initially */
     height: 500px; max-height: 50vh; 
     filter: drop-shadow(0 0 15px #00ff88); 
-    transform: scaleX(-1); /* Face Left */
+    transform: scaleX(-1); 
     will-change: transform;
 }
 
-/* NORMAL ATTACK (Right to Left) */
 .zoro-strike {
     animation: dashAcross 1.0s cubic-bezier(0,0,0.2,1) forwards;
     filter: blur(2px) drop-shadow(0 0 20px #00ff88);
 }
+
 @keyframes dashAcross {
     0% { transform: translateX(0) scaleX(-1); opacity: 0; }
     5% { opacity: 1; }
@@ -165,9 +162,8 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { transform: translateX(-150vw) scaleX(-1); opacity: 0; }
 }
 
-/* --- ZORO LOST (Movement Only - JS handles Position) --- */
+/* Lost animation logic */
 .zoro-lost-anim {
-    /* Just handle the run speed */
     animation: dashLost 2.5s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
     filter: blur(2px) drop-shadow(0 0 20px #00ff88);
 }
@@ -176,13 +172,12 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     0% { transform: translateX(0); opacity: 0; }
     10% { opacity: 1; }
     80% { opacity: 1; }
-    /* Run all the way to the right side */
     100% { transform: translateX(200vw); opacity: 0; }
 }
 
-
-/* --- ANIMATIONS & FX --- */
+/* FX */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+
 @keyframes shake {
     10%, 90% { transform: translate3d(-10px, 0, 0); }
     20%, 80% { transform: translate3d(10px, 0, 0); }
@@ -196,13 +191,14 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 }
 
 .flash-active { animation: impactFlash 0.8s ease-out; }
+
 @keyframes impactFlash {
     0% { opacity: 1; background: #fff; mix-blend-mode: normal; } 
     10% { opacity: 0.8; background: #00ff88; mix-blend-mode: hard-light; } 
     100% { opacity: 0; background: #00ff88; mix-blend-mode: hard-light; }
 }
 
-/* --- CUT ANIMATIONS --- */
+/* Cut paths */
 .anim-top { clip-path: polygon(0 0, 100% 0, 50% 50%); animation: flyTop 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards; }
 @keyframes flyTop { to { transform: translate(0, -150px) rotate(-5deg); opacity: 0; } }
 

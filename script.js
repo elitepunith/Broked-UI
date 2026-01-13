@@ -1,106 +1,100 @@
-// --- SECRET LOGS FOR JUDGES ---
+// judge hints - if you are reading this, hi!
 console.log("%c⚔️ RORONOA ZORO ⚔️", "color: #00ff88; font-size: 20px; font-weight: bold; background: #000; padding: 10px;");
-console.log("%cTry challenging him with these names:", "color: #fff; font-size: 14px;");
-console.log("1. 'Sanji' (He hates the cook)");
-console.log("2. 'Kuina' (The promise)");
-console.log("3. 'Mihawk' (The goal)");
-console.log("4. 'Lost' (He always gets lost...)");
+console.log("%cTry: 'Sanji', 'Kuina', 'Mihawk', or 'Lost'", "color: #fff; font-size: 14px;");
 
+// particle system
+setInterval(() => {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random() * 100 + 'vw';
+    const s = Math.random() * 5 + 2;
+    p.style.width = s + 'px';
+    p.style.height = s + 'px';
+    p.style.animationDuration = Math.random() * 2 + 2 + 's';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 4000);
+}, 100);
 
-// --- 1. PARTICLES ---
-setInterval(createParticle, 100);
+const btn = document.getElementById('submitBtn');
+const nameInput = document.getElementById('username');
 
-function createParticle() {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-    particle.style.left = Math.random() * 100 + 'vw';
-    const size = Math.random() * 5 + 2;
-    particle.style.width = size + 'px';
-    particle.style.height = size + 'px';
-    particle.style.animationDuration = Math.random() * 2 + 2 + 's';
-    document.body.appendChild(particle);
-    setTimeout(() => { particle.remove(); }, 4000);
-}
-
-// --- 2. MAIN LOGIC ---
-const submitBtn = document.getElementById('submitBtn');
-const usernameInput = document.getElementById('username');
-
-submitBtn.addEventListener('click', executeSantoryu);
-usernameInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') executeSantoryu();
+btn.addEventListener('click', cutUI);
+nameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') cutUI();
 });
 
-function executeSantoryu() {
-    const userText = usernameInput.value;
-    const lowerText = userText.toLowerCase().trim();
+function cutUI() {
+    console.log('challenge accepted');
+    
+    const val = nameInput.value;
+    const txt = val.toLowerCase().trim();
 
-    if (!userText) { alert("A SWORDSMAN NEEDS A NAME."); return; }
+    if (!val) { 
+        alert("A SWORDSMAN NEEDS A NAME."); 
+        return; 
+    }
 
-    const originalBox = document.getElementById('target-box');
+    const box = document.getElementById('target-box');
     const container = document.querySelector('.container');
-    const zoroLayer = document.getElementById('zoro-layer');
-    const zoroImg = document.getElementById('zoro-img');
+    const layer = document.getElementById('zoro-layer');
+    const img = document.getElementById('zoro-img');
     const flash = document.getElementById('flash-overlay');
     
-    const sfxVoice = document.getElementById('sfx-voice');
-    const sfxSlash = document.getElementById('sfx-slash');
-    const sfxSheath = document.getElementById('sfx-sheath'); 
+    // audio
+    const voice = document.getElementById('voice');
+    const slash = document.getElementById('slash');
+    const sheath = document.getElementById('sheath'); 
 
-
-    // --- FEATURE: ZORO GETS LOST (10% Chance OR type "lost") ---
-    const isLost = Math.random() < 0.1 || lowerText === "lost";
+    // check if he gets lost (10% chance) or cheat code
+    const isLost = Math.random() < 0.1 || txt === "lost";
 
     if (isLost) {
-        // 1. Play Dash Sound (Confused)
-        sfxSlash.volume = 0.5;
-        sfxSlash.currentTime = 0;
-        sfxSlash.play();
-
-        // 2. NUCLEAR POSITIONING FIX (Force him to left side via JS)
-        zoroLayer.style.display = 'block';
+        console.log('zoro got lost...');
         
-        // Manually force these styles to override the CSS
-        zoroImg.style.left = "-50vw";         // Start way off left
-        zoroImg.style.right = "auto";         // Clear right
-        zoroImg.style.transform = "scaleX(1)"; // Face Right
-        
-        // Add class ONLY for the movement animation
-        zoroImg.classList.add('zoro-lost-anim'); 
+        slash.volume = 0.5;
+        slash.currentTime = 0;
+        slash.play();
 
-        // 3. Update Text
+        // force left position via JS to override CSS
+        layer.style.display = 'block';
+        img.style.left = "-50vw";         
+        img.style.right = "auto";         
+        img.style.transform = "scaleX(1)"; 
+        
+        img.classList.add('zoro-lost-anim'); 
+
+        // update text
         setTimeout(() => {
             document.querySelector('#target-box h2').innerText = "HUH?";
             document.querySelector('#target-box p').innerText = "HE GOT LOST...";
         }, 600);
 
-        // 4. Reset Everything
+        // reset
         setTimeout(() => {
             container.style.opacity = "0";
             setTimeout(() => {
-                // CLEAN UP MANUAL STYLES
-                zoroImg.classList.remove('zoro-lost-anim'); 
-                zoroLayer.style.display = 'none';
+                img.classList.remove('zoro-lost-anim'); 
+                layer.style.display = 'none';
                 
-                // Remove manual overrides so normal attacks work again
-                zoroImg.style.left = "";      
-                zoroImg.style.right = "";     
-                zoroImg.style.transform = ""; 
+                // clear manual styles
+                img.style.left = "";      
+                img.style.right = "";     
+                img.style.transform = ""; 
                 
                 document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
                 document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
                 
                 container.style.opacity = "1";
-                usernameInput.value = "";
+                nameInput.value = "";
             }, 1000);
         }, 2500);
 
-        return; // STOP EXECUTION
+        return; 
     }
 
 
-    // --- EASTER EGG 1: KUINA ---
-    if (lowerText === "kuina") {
+    // easter eggs
+    if (txt === "kuina") {
         document.body.classList.add('dark-mode');
         document.querySelector('#target-box h2').innerText = "I PROMISED...";
         document.querySelector('#target-box p').innerText = "I cannot cut this.";
@@ -109,64 +103,58 @@ function executeSantoryu() {
             document.body.classList.remove('dark-mode');
             document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
             document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
-            usernameInput.value = "";
+            nameInput.value = "";
         }, 3000);
         return; 
     }
 
-    // --- EASTER EGG 2: MIHAWK ---
-    if (lowerText === "mihawk" || lowerText === "dracule mihawk") {
+    if (txt === "mihawk" || txt === "dracule mihawk") {
         document.body.classList.add('dark-mode');
         document.querySelector('#target-box h2').innerText = "TOO STRONG";
         document.querySelector('#target-box p').innerText = "I am not ready yet.";
         
-        sfxSheath.volume = 0.5;
-        sfxSheath.play(); 
+        sheath.volume = 0.5;
+        sheath.play(); 
 
         setTimeout(() => {
             document.body.classList.remove('dark-mode');
             document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
             document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
-            usernameInput.value = "";
+            nameInput.value = "";
         }, 3000);
         return; 
     }
 
-    // --- EASTER EGG 3: SANJI ---
     let delay = 1000;
-    if (lowerText === "sanji" || lowerText === "cook") {
+    // sanji check
+    if (txt === "sanji" || txt === "cook") {
         delay = 0; 
-        sfxVoice.src = ""; 
+        voice.src = ""; 
     } else {
-        sfxVoice.src = "voice.mp3"; 
-        sfxVoice.volume = 1.0;
-        sfxVoice.currentTime = 0;
-        sfxVoice.play();
+        voice.src = "voice.mp3"; 
+        voice.volume = 1.0;
+        voice.currentTime = 0;
+        voice.play();
     }
 
-
-    // --- STANDARD ATTACK ---
+    // go dark
     document.body.classList.add('dark-mode'); 
 
     setTimeout(() => {
-        sfxSlash.volume = 0.6;
-        sfxSlash.currentTime = 0;
-        sfxSlash.play();
+        slash.volume = 0.6;
+        slash.currentTime = 0;
+        slash.play();
         
-        zoroLayer.style.display = 'block';
-        zoroImg.classList.add('zoro-strike');
+        layer.style.display = 'block';
+        img.classList.add('zoro-strike');
 
-        // IMPACT
+        // impact
         setTimeout(() => {
             document.body.classList.add('shake-screen');
             flash.classList.add('flash-active');
-            originalBox.style.opacity = '0';
+            box.style.opacity = '0';
 
-            createClone(userText, 'anim-top', originalBox);
-            createClone(userText, 'anim-bot', originalBox);
-            createClone(userText, 'anim-left', originalBox);
-            createClone(userText, 'anim-right', originalBox);
-
+            createClones(val, box);
             createSlashLine(45); 
             createSlashLine(-45);
 
@@ -174,10 +162,10 @@ function executeSantoryu() {
 
     }, delay);
 
-    // RESET
+    // cleanup
     setTimeout(() => {
-        sfxSheath.volume = 0.8;
-        sfxSheath.play();
+        sheath.volume = 0.8;
+        sheath.play();
     }, delay + 4000);
 
     setTimeout(() => {
@@ -186,9 +174,9 @@ function executeSantoryu() {
 
         setTimeout(() => {
             document.getElementById('slice-container').innerHTML = '';
-            originalBox.style.opacity = '1';
-            zoroImg.classList.remove('zoro-strike');
-            zoroLayer.style.display = 'none';
+            box.style.opacity = '1';
+            img.classList.remove('zoro-strike');
+            layer.style.display = 'none';
             document.body.classList.remove('shake-screen');
             document.body.classList.remove('dark-mode');
             flash.classList.remove('flash-active');
@@ -197,42 +185,49 @@ function executeSantoryu() {
             document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
             
             container.style.opacity = "1";
-            usernameInput.value = "";
+            nameInput.value = "";
             
         }, 1000);
 
     }, delay + 4500); 
 }
 
-function createClone(text, animationClass, originalBox) {
-    const div = document.createElement('div');
-    div.className = `slice-clone ${animationClass}`;
-    
-    // Exact sizing logic for mobile
-    const rect = originalBox.getBoundingClientRect();
-    div.style.width = rect.width + 'px';
-    div.style.height = rect.height + 'px';
-    div.style.top = rect.top + 'px';
-    div.style.left = rect.left + 'px';
-    
-    div.innerHTML = `
-        <div class="box-content">
-            <h2>RORONOA ZORO</h2>
-            <p>ONLY THE STRONG MAY ENTER.</p>
-            <input type="text" value="${text}" readonly>
-            <button>CHALLENGE</button>
-        </div>
-    `;
-    document.getElementById('slice-container').appendChild(div);
+function createClones(text, originalBox) {
+    // helper to spawn pieces
+    const makePiece = (anim) => {
+        const div = document.createElement('div');
+        div.className = `slice-clone ${anim}`;
+        
+        const rect = originalBox.getBoundingClientRect();
+        div.style.width = rect.width + 'px';
+        div.style.height = rect.height + 'px';
+        div.style.top = rect.top + 'px';
+        div.style.left = rect.left + 'px';
+        
+        div.innerHTML = `
+            <div class="box-content">
+                <h2>RORONOA ZORO</h2>
+                <p>ONLY THE STRONG MAY ENTER.</p>
+                <input type="text" value="${text}" readonly>
+                <button>CHALLENGE</button>
+            </div>
+        `;
+        document.getElementById('slice-container').appendChild(div);
+    };
+
+    makePiece('anim-top');
+    makePiece('anim-bot');
+    makePiece('anim-left');
+    makePiece('anim-right');
 }
 
-function createSlashLine(rotateDeg) {
+function createSlashLine(deg) {
     const line = document.createElement('div');
     line.className = 'slash-line';
     line.style.top = '50%';
     line.style.left = '50%'; 
     line.style.width = '0px';
-    line.style.transform = `translate(-50%, -50%) rotate(${rotateDeg}deg)`;
+    line.style.transform = `translate(-50%, -50%) rotate(${deg}deg)`;
 
     document.getElementById('slice-container').appendChild(line);
 
