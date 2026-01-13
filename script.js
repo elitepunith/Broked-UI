@@ -1,8 +1,8 @@
-// judge hints - if you are reading this, hi!
+// judge hints
 console.log("%c⚔️ RORONOA ZORO ⚔️", "color: #00ff88; font-size: 20px; font-weight: bold; background: #000; padding: 10px;");
 console.log("%cTry: 'Sanji', 'Kuina', 'Mihawk', or 'Lost'", "color: #fff; font-size: 14px;");
 
-// particle system
+// particle fx
 setInterval(() => {
     const p = document.createElement('div');
     p.classList.add('particle');
@@ -24,8 +24,6 @@ nameInput.addEventListener('keypress', (e) => {
 });
 
 function cutUI() {
-    console.log('challenge accepted');
-    
     const val = nameInput.value;
     const txt = val.toLowerCase().trim();
 
@@ -45,11 +43,11 @@ function cutUI() {
     const slash = document.getElementById('slash');
     const sheath = document.getElementById('sheath'); 
 
-    // check if he gets lost (10% chance) or cheat code
+    // check if he gets lost (10% chance)
     const isLost = Math.random() < 0.1 || txt === "lost";
 
     if (isLost) {
-        console.log('zoro got lost...');
+        console.log('zoro got lost again...');
         
         slash.volume = 0.5;
         slash.currentTime = 0;
@@ -76,7 +74,7 @@ function cutUI() {
                 img.classList.remove('zoro-lost-anim'); 
                 layer.style.display = 'none';
                 
-                // clear manual styles
+                // clean up manual styles
                 img.style.left = "";      
                 img.style.right = "";     
                 img.style.transform = ""; 
@@ -193,7 +191,6 @@ function cutUI() {
 }
 
 function createClones(text, originalBox) {
-    // helper to spawn pieces
     const makePiece = (anim) => {
         const div = document.createElement('div');
         div.className = `slice-clone ${anim}`;

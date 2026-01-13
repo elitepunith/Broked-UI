@@ -1,3 +1,4 @@
+/* Basics */
 * { box-sizing: border-box; }
 
 body {
@@ -20,7 +21,7 @@ body.dark-mode {
     background-color: #000;
 }
 
-/* particles */
+/* Green Particles */
 .particle {
     position: absolute;
     bottom: -10px;
@@ -40,7 +41,7 @@ body.dark-mode {
     100% { transform: translateY(-100vh) scale(0); opacity: 0; }
 }
 
-/* Main Box */
+/* Main Modal */
 .dialog-box {
     position: relative;
     width: min(90%, 500px); 
@@ -111,7 +112,7 @@ button {
 
 button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale(1.05); }
 
-/* Sliced Pieces */
+/* Clones (The Cut Pieces) */
 .slice-clone {
     position: fixed; 
     background: #0a0a0a;
@@ -143,10 +144,10 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 #zoro-img {
     position: absolute;
     bottom: 0; 
-    left: 100%; /* Hidden right initially */
+    left: 100%; /* Hidden off-screen right */
     height: 500px; max-height: 50vh; 
     filter: drop-shadow(0 0 15px #00ff88); 
-    transform: scaleX(-1); 
+    transform: scaleX(-1); /* Facing Left */
     will-change: transform;
 }
 
@@ -162,7 +163,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { transform: translateX(-150vw) scaleX(-1); opacity: 0; }
 }
 
-/* Lost animation logic */
+/* Lost animation (Just movement, JS handles start position) */
 .zoro-lost-anim {
     animation: dashLost 2.5s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
     filter: blur(2px) drop-shadow(0 0 20px #00ff88);
@@ -172,10 +173,12 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     0% { transform: translateX(0); opacity: 0; }
     10% { opacity: 1; }
     80% { opacity: 1; }
+    /* Run to the right */
     100% { transform: translateX(200vw); opacity: 0; }
 }
 
-/* FX */
+
+/* Effects */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 
 @keyframes shake {
@@ -198,7 +201,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { opacity: 0; background: #00ff88; mix-blend-mode: hard-light; }
 }
 
-/* Cut paths */
+/* Cut Paths */
 .anim-top { clip-path: polygon(0 0, 100% 0, 50% 50%); animation: flyTop 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards; }
 @keyframes flyTop { to { transform: translate(0, -150px) rotate(-5deg); opacity: 0; } }
 
