@@ -9,8 +9,9 @@ body {
     align-items: center;
     font-family: 'Roboto Mono', monospace;
     overflow: hidden;
-    /* UPGRADE: KATANA CURSOR */
-    cursor: url('https://cur.cursors-4u.net/games/gam-13/gam1282.cur'), auto;
+
+    /* CUSTOM CURSOR */
+    cursor: url('cursor.png'), auto; 
 }
 
 /* --- HAKI PARTICLES --- */
@@ -33,10 +34,10 @@ body {
     100% { transform: translateY(-100vh) scale(0); opacity: 0; }
 }
 
-/* --- THE DIALOG BOX --- */
+/* --- THE DIALOG BOX (RESPONSIVE) --- */
 .dialog-box {
     position: relative;
-    /* UPGRADE: RESPONSIVE WIDTH */
+    /* Responsive Width Logic */
     width: 90%; 
     max-width: 500px;
     height: 320px;
@@ -49,9 +50,10 @@ body {
     align-items: center;
     z-index: 10;
     transition: opacity 0.2s;
+    box-sizing: border-box;
 }
 
-.box-content { text-align: center; width: 100%; padding: 30px; }
+.box-content { text-align: center; width: 100%; padding: 20px; box-sizing: border-box; }
 
 h2 {
     font-family: 'Bangers', cursive;
@@ -66,7 +68,7 @@ h2 {
 p { font-size: 0.9rem; color: #00ff88; margin: 15px 0 25px 0; font-weight: bold; letter-spacing: 2px; }
 
 input {
-    width: 90%;
+    width: 100%;
     padding: 15px;
     font-size: 1.5rem;
     font-family: 'Bangers';
@@ -77,8 +79,8 @@ input {
     margin-bottom: 25px;
     outline: none;
     transition: 0.3s;
-    /* Ensure input also uses custom cursor */
-    cursor: url('https://cur.cursors-4u.net/games/gam-13/gam1282.cur'), text;
+    box-sizing: border-box;
+    cursor: url('cursor.png'), text;
 }
 
 input:focus { border-color: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.3); }
@@ -92,21 +94,16 @@ button {
     border: none;
     transition: 0.2s;
     text-transform: uppercase;
-    /* UPGRADE: CLICKABLE CURSOR */
-    cursor: url('https://cur.cursors-4u.net/games/gam-13/gam1282.cur'), pointer;
+    cursor: url('cursor.png'), pointer;
 }
 
 button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale(1.05); }
 
 
 /* --- THE SLICED CLONES --- */
+/* Fixed positioning ensures they overlay perfectly on mobile */
 .slice-clone {
-    position: absolute;
-    top: 0; left: 0;
-    /* MATCH RESPONSIVE WIDTH */
-    width: 100%; 
-    height: 100%;
-    
+    position: fixed; 
     background: #0a0a0a;
     border: 3px solid #00ff88;
     box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
@@ -115,45 +112,37 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     align-items: center;
     pointer-events: none;
     overflow: hidden;
+    z-index: 11;
+    box-sizing: border-box;
 }
 
-.slice-clone .box-content { padding: 30px; text-align: center; width: 100%; }
+/* Match inner styles */
+.slice-clone .box-content { padding: 20px; text-align: center; width: 100%; box-sizing: border-box; }
 .slice-clone h2 { font-family: 'Bangers'; font-size: 3.5rem; margin: 0; color: white; text-shadow: 4px 4px 0px #00ff88; }
 .slice-clone p { font-size: 0.9rem; color: #00ff88; margin: 15px 0 25px 0; font-weight: bold; letter-spacing: 2px; }
-.slice-clone input { width: 90%; padding: 15px; font-size: 1.5rem; font-family: 'Bangers'; border: 2px solid #333; background: #111; color: white; text-align: center; margin-bottom: 25px; }
+.slice-clone input { width: 100%; padding: 15px; font-size: 1.5rem; font-family: 'Bangers'; border: 2px solid #333; background: #111; color: white; text-align: center; margin-bottom: 25px; }
 .slice-clone button { padding: 15px 50px; font-family: 'Bangers'; font-size: 1.8rem; background: #00ff88; color: #000; border: none; }
 
 
 /* --- ZORO LAYER --- */
 #zoro-layer {
     position: fixed;
-    bottom: 0; 
-    left: 0; 
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 100;
-    display: none; 
+    bottom: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 100; display: none; 
 }
 
 #zoro-img {
     position: absolute;
-    bottom: 0; 
-    right: -100vw; 
-    height: 500px; 
-    max-height: 60vh; 
+    bottom: 0; right: -100vw; 
+    height: 500px; max-height: 50vh; 
     filter: drop-shadow(0 0 15px #00ff88); 
     transform: scaleX(-1);
     will-change: transform;
 }
 
-/* GHOST TRAIL & SPEED */
 .zoro-strike {
     animation: dashAcross 0.6s cubic-bezier(0,0,0.2,1) forwards;
-    filter: 
-        drop-shadow(20px 0 0 rgba(0, 255, 136, 0.4)) 
-        drop-shadow(40px 0 0 rgba(0, 255, 136, 0.2)) 
-        drop-shadow(0 0 20px #00ff88);
+    filter: blur(4px) drop-shadow(0 0 20px #00ff88);
 }
 
 @keyframes dashAcross {
@@ -164,7 +153,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 }
 
 
-/* --- EXPLOSIVE SHAKE --- */
+/* --- FX --- */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 @keyframes shake {
     10%, 90% { transform: translate3d(-10px, 0, 0); }
@@ -173,15 +162,9 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     40%, 60% { transform: translate3d(10px, 10px, 0); }
 }
 
-
-/* --- IMPACT FRAME --- */
 #flash-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #fff;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 999;
-    mix-blend-mode: normal;
+    background: #fff; opacity: 0; pointer-events: none; z-index: 999; mix-blend-mode: normal;
 }
 
 .flash-active { animation: impactFlash 0.8s ease-out; }
@@ -191,41 +174,36 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { opacity: 0; background: #00ff88; mix-blend-mode: hard-light; }
 }
 
-
-/* --- EXPLOSIVE "X" CUT ANIMATIONS --- */
-.anim-top {
-    clip-path: polygon(0 0, 100% 0, 50% 50%);
-    animation: flyTop 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards;
-}
+/* --- CUT ANIMATIONS --- */
+.anim-top { clip-path: polygon(0 0, 100% 0, 50% 50%); animation: flyTop 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards; }
 @keyframes flyTop { to { transform: translate(0, -150px) rotate(-5deg); opacity: 0; } }
 
-.anim-bot {
-    clip-path: polygon(0 100%, 100% 100%, 50% 50%);
-    animation: flyBot 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards;
-}
+.anim-bot { clip-path: polygon(0 100%, 100% 100%, 50% 50%); animation: flyBot 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards; }
 @keyframes flyBot { to { transform: translate(0, 150px) rotate(5deg); opacity: 0; } }
 
-.anim-left {
-    clip-path: polygon(0 0, 0 100%, 50% 50%);
-    animation: flyLeft 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards;
-}
+.anim-left { clip-path: polygon(0 0, 0 100%, 50% 50%); animation: flyLeft 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards; }
 @keyframes flyLeft { to { transform: translate(-150px, 0) rotate(-5deg); opacity: 0; } }
 
-.anim-right {
-    clip-path: polygon(100% 0, 100% 100%, 50% 50%);
-    animation: flyRight 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards;
-}
+.anim-right { clip-path: polygon(100% 0, 100% 100%, 50% 50%); animation: flyRight 3s cubic-bezier(0.05, 0.7, 0.1, 1) forwards; }
 @keyframes flyRight { to { transform: translate(150px, 0) rotate(5deg); opacity: 0; } }
 
-
-/* --- TAPERED SLASH LINES --- */
 .slash-line {
-    position: absolute;
-    height: 6px;
-    background: #fff;
+    position: absolute; height: 6px; background: #fff;
     box-shadow: 0 0 10px #00ff88, 0 0 40px #00ff88;
-    z-index: 50;
-    transform-origin: center;
-    border-radius: 50%; 
-    opacity: 0.9;
+    z-index: 50; transform-origin: center; border-radius: 50%; opacity: 0.9;
+}
+
+
+/* --- MOBILE MEDIA QUERY (The Fix) --- */
+@media (max-width: 600px) {
+    h2 { font-size: 2.2rem; }
+    .dialog-box { height: auto; min-height: 280px; }
+    button { font-size: 1.4rem; padding: 12px 30px; }
+    
+    /* Shrink Zoro on mobile so he fits */
+    #zoro-img { height: 350px; }
+    
+    /* Adjust clone text sizes too */
+    .slice-clone h2 { font-size: 2.2rem; }
+    .slice-clone button { font-size: 1.4rem; padding: 12px 30px; }
 }

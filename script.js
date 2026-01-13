@@ -1,48 +1,31 @@
-// --- 1. HAKI PARTICLE SYSTEM ---
+// --- 1. PARTICLES ---
 setInterval(createParticle, 100);
 
 function createParticle() {
     const particle = document.createElement('div');
     particle.classList.add('particle');
-    
-    // Random Position
     particle.style.left = Math.random() * 100 + 'vw';
-    
-    // Random Size (Embers)
     const size = Math.random() * 5 + 2;
     particle.style.width = size + 'px';
     particle.style.height = size + 'px';
-    
-    // Random Speed
     particle.style.animationDuration = Math.random() * 2 + 2 + 's';
-    
     document.body.appendChild(particle);
     setTimeout(() => { particle.remove(); }, 4000);
 }
 
 
-// --- 2. MAIN LOGIC ---
+// --- 2. LOGIC ---
 const submitBtn = document.getElementById('submitBtn');
 const usernameInput = document.getElementById('username');
 
-// Event Listener for Click
 submitBtn.addEventListener('click', executeSantoryu);
-
-// UPGRADE: Event Listener for Enter Key
 usernameInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        executeSantoryu();
-    }
+    if (e.key === 'Enter') executeSantoryu();
 });
-
 
 function executeSantoryu() {
     const userText = usernameInput.value;
-
-    if (!userText) {
-        alert("A SWORDSMAN NEEDS A NAME.");
-        return;
-    }
+    if (!userText) { alert("A SWORDSMAN NEEDS A NAME."); return; }
 
     const originalBox = document.getElementById('target-box');
     const container = document.querySelector('.container');
@@ -52,64 +35,53 @@ function executeSantoryu() {
     
     const sfxVoice = document.getElementById('sfx-voice');
     const sfxSlash = document.getElementById('sfx-slash');
-    const sfxSheath = document.getElementById('sfx-sheath'); // UPGRADE: Sheath Sound
+    const sfxSheath = document.getElementById('sfx-sheath'); 
 
-    // STEP 1: VOICE LINE
+    // 1. VOICE
     sfxVoice.volume = 1.0;
     sfxVoice.currentTime = 0;
     sfxVoice.play();
 
-    // STEP 2: WAIT FOR VOICE (Sync with audio length)
+    // 2. DELAY FOR VOICE
     setTimeout(() => {
-        
-        // Trigger Slash Sound
         sfxSlash.volume = 0.6;
         sfxSlash.currentTime = 0;
         sfxSlash.play();
         
-        // Zoro Dash
         zoroLayer.style.display = 'block';
         zoroImg.classList.add('zoro-strike');
 
-        // STEP 3: IMPACT (When Zoro hits center - approx 300ms)
+        // 3. IMPACT (300ms)
         setTimeout(() => {
-            
-            // Violent Screen Shake
             document.body.classList.add('shake-screen');
-
-            // White Impact Flash & Hide Real Box
             flash.classList.add('flash-active');
             originalBox.style.opacity = '0';
 
-            // Create 4 Pieces for X Cut
-            createClone(userText, 'anim-top');
-            createClone(userText, 'anim-bot');
-            createClone(userText, 'anim-left');
-            createClone(userText, 'anim-right');
+            // IMPORTANT: Calculate layout here for mobile accuracy
+            createClone(userText, 'anim-top', originalBox);
+            createClone(userText, 'anim-bot', originalBox);
+            createClone(userText, 'anim-left', originalBox);
+            createClone(userText, 'anim-right', originalBox);
 
-            // Create "X" Slash Lines
-            createSlashLine(45);  // /
-            createSlashLine(-45); // \
+            createSlashLine(45); 
+            createSlashLine(-45);
 
         }, 300); 
 
-    }, 1000); // 1s delay for "Santoryu..." voice
+    }, 1000);
 
 
-    // STEP 4: SHEATH SOUND & SMOOTH RESET
-    // Play sheath sound right before fade out
+    // 4. RESET
     setTimeout(() => {
         sfxSheath.volume = 0.8;
         sfxSheath.play();
     }, 5000);
 
     setTimeout(() => {
-        // Fade Out
         container.style.transition = "opacity 1s";
         container.style.opacity = "0";
 
         setTimeout(() => {
-            // Reset Everything
             document.getElementById('slice-container').innerHTML = '';
             originalBox.style.opacity = '1';
             zoroImg.classList.remove('zoro-strike');
@@ -117,7 +89,6 @@ function executeSantoryu() {
             document.body.classList.remove('shake-screen');
             flash.classList.remove('flash-active');
             
-            // Fade In
             container.style.opacity = "1";
             usernameInput.value = "";
             
@@ -126,9 +97,18 @@ function executeSantoryu() {
     }, 5500); 
 }
 
-function createClone(text, animationClass) {
+// Function to clone box exactly where it stands on screen
+function createClone(text, animationClass, originalBox) {
     const div = document.createElement('div');
     div.className = `slice-clone ${animationClass}`;
+    
+    // Get Coordinates (Critical for Mobile)
+    const rect = originalBox.getBoundingClientRect();
+    div.style.width = rect.width + 'px';
+    div.style.height = rect.height + 'px';
+    div.style.top = rect.top + 'px';
+    div.style.left = rect.left + 'px';
+    
     div.innerHTML = `
         <div class="box-content">
             <h2>RORONOA ZORO</h2>
@@ -143,8 +123,6 @@ function createClone(text, animationClass) {
 function createSlashLine(rotateDeg) {
     const line = document.createElement('div');
     line.className = 'slash-line';
-    
-    // Center it
     line.style.top = '50%';
     line.style.left = '50%'; 
     line.style.width = '0px';
@@ -152,13 +130,12 @@ function createSlashLine(rotateDeg) {
 
     document.getElementById('slice-container').appendChild(line);
 
-    // Explosive Line Expansion
     line.animate([
         { width: '0px', opacity: 1 },
-        { width: '700px', opacity: 0 }
+        { width: '100vmax', opacity: 0 }
     ], {
         duration: 500, 
-        easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)', // Explosive ease
+        easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)',
         fill: 'forwards'
     });
 }
