@@ -1,3 +1,29 @@
+// --- 1. PARTICLE SYSTEM ---
+setInterval(createParticle, 150);
+
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    
+    // Random Start Position
+    particle.style.left = Math.random() * 100 + 'vw';
+    
+    // Random Size (Embers)
+    const size = Math.random() * 5 + 2;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    
+    // Random Speed
+    particle.style.animationDuration = Math.random() * 2 + 2 + 's';
+    
+    document.body.appendChild(particle);
+    
+    // Cleanup
+    setTimeout(() => { particle.remove(); }, 4000);
+}
+
+
+// --- 2. MAIN LOGIC ---
 document.getElementById('submitBtn').addEventListener('click', executeSantoryu);
 
 function executeSantoryu() {
@@ -15,19 +41,18 @@ function executeSantoryu() {
     const zoroImg = document.getElementById('zoro-img');
     const flash = document.getElementById('flash-overlay');
     
-    // AUDIO
     const sfxVoice = document.getElementById('sfx-voice');
     const sfxSlash = document.getElementById('sfx-slash');
 
-    // 1. UPGRADE 3: VOICE LINE START
+    // STEP 1: VOICE LINE
     sfxVoice.volume = 1.0;
     sfxVoice.currentTime = 0;
     sfxVoice.play();
 
-    // 2. WAIT FOR VOICE (e.g. 1 second) BEFORE ATTACK
+    // STEP 2: WAIT FOR VOICE (approx 1s)
     setTimeout(() => {
         
-        // A. Trigger Slash Sound & Dash
+        // Trigger Slash Sound & Zoro Dash
         sfxSlash.volume = 0.6;
         sfxSlash.currentTime = 0;
         sfxSlash.play();
@@ -35,48 +60,45 @@ function executeSantoryu() {
         zoroLayer.style.display = 'block';
         zoroImg.classList.add('zoro-strike');
 
-        // B. The Impact (Synced to when Zoro hits center - approx 600ms)
+        // STEP 3: IMPACT (When Zoro is in middle)
         setTimeout(() => {
             
-            // UPGRADE 1: SCREEN SHAKE
+            // Screen Shake
             document.body.classList.add('shake-screen');
 
             // Flash & Hide Real Box
             flash.classList.add('flash-active');
             originalBox.style.opacity = '0';
 
-            // Create Pieces
+            // Create 4 Pieces for X Cut
             createClone(userText, 'anim-top');
-            createClone(userText, 'anim-mid');
             createClone(userText, 'anim-bot');
+            createClone(userText, 'anim-left');
+            createClone(userText, 'anim-right');
 
-            // UPGRADE 2: SLASH LINES
-            createSlashLine(35, -6); 
-            createSlashLine(75, -6);   
+            // Create X Slash Lines
+            createSlashLine(45);  // Diagonal /
+            createSlashLine(-45); // Diagonal \
 
-        }, 600); 
+        }, 300); // Fast dash impact
 
-    }, 800); // 800ms delay for voice to say "Santoryu..."
+    }, 1000); // Delay for voice
 
 
-    // 3. SMOOTH RESET LOGIC
+    // STEP 4: SMOOTH RESET
     setTimeout(() => {
-        // Fade out
+        // Fade Out
         container.style.transition = "opacity 1s";
         container.style.opacity = "0";
 
         setTimeout(() => {
-            // Clean up DOM
+            // Clean DOM
             document.getElementById('slice-container').innerHTML = '';
             
-            // Reset Box
+            // Reset Elements
             originalBox.style.opacity = '1';
-            
-            // Reset Zoro
             zoroImg.classList.remove('zoro-strike');
             zoroLayer.style.display = 'none';
-            
-            // Reset Classes
             document.body.classList.remove('shake-screen');
             flash.classList.remove('flash-active');
             
@@ -86,7 +108,7 @@ function executeSantoryu() {
             
         }, 1000);
 
-    }, 5500); // Wait 5.5s total
+    }, 5000); 
 }
 
 function createClone(text, animationClass) {
@@ -103,22 +125,25 @@ function createClone(text, animationClass) {
     document.getElementById('slice-container').appendChild(div);
 }
 
-function createSlashLine(topPercent, rotateDeg) {
+function createSlashLine(rotateDeg) {
     const line = document.createElement('div');
     line.className = 'slash-line';
     
-    line.style.top = topPercent + '%';
-    line.style.left = '-10%'; 
-    line.style.width = '0%';
-    line.style.transform = `rotate(${rotateDeg}deg)`;
+    // Center of box
+    line.style.top = '50%';
+    line.style.left = '50%'; 
+    line.style.width = '0px';
+    
+    // Translate to center pivot and rotate
+    line.style.transform = `translate(-50%, -50%) rotate(${rotateDeg}deg)`;
 
     document.getElementById('slice-container').appendChild(line);
 
     line.animate([
-        { width: '0%', opacity: 1 },
-        { width: '120%', opacity: 0 } 
+        { width: '0px', opacity: 1 },
+        { width: '700px', opacity: 0 } // Long enough to cover box
     ], {
-        duration: 900, 
+        duration: 600, 
         easing: 'ease-out',
         fill: 'forwards'
     });
