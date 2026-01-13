@@ -24,7 +24,7 @@ usernameInput.addEventListener('keypress', function (e) {
 
 function executeSantoryu() {
     const userText = usernameInput.value;
-    const lowerText = userText.toLowerCase().trim(); // Clean input for Easter Eggs
+    const lowerText = userText.toLowerCase().trim();
 
     if (!userText) { alert("A SWORDSMAN NEEDS A NAME."); return; }
 
@@ -38,7 +38,59 @@ function executeSantoryu() {
     const sfxSlash = document.getElementById('sfx-slash');
     const sfxSheath = document.getElementById('sfx-sheath'); 
 
-    // --- EASTER EGG 1: KUINA (Refusal) ---
+
+    // --- FEATURE: ZORO GETS LOST (10% Chance OR type "lost") ---
+    const isLost = Math.random() < 0.1 || lowerText === "lost";
+
+    if (isLost) {
+        // 1. Play Dash Sound (Confused)
+        sfxSlash.volume = 0.5;
+        sfxSlash.currentTime = 0;
+        sfxSlash.play();
+
+        // 2. NUCLEAR POSITIONING FIX (Force him to left side via JS)
+        zoroLayer.style.display = 'block';
+        
+        // Manually force these styles to override the CSS
+        zoroImg.style.left = "-50vw";         // Start way off left
+        zoroImg.style.right = "auto";         // Clear right
+        zoroImg.style.transform = "scaleX(1)"; // Face Right
+        
+        // Add class ONLY for the movement animation
+        zoroImg.classList.add('zoro-lost-anim'); 
+
+        // 3. Update Text
+        setTimeout(() => {
+            document.querySelector('#target-box h2').innerText = "HUH?";
+            document.querySelector('#target-box p').innerText = "HE GOT LOST...";
+        }, 600);
+
+        // 4. Reset Everything
+        setTimeout(() => {
+            container.style.opacity = "0";
+            setTimeout(() => {
+                // CLEAN UP MANUAL STYLES
+                zoroImg.classList.remove('zoro-lost-anim'); 
+                zoroLayer.style.display = 'none';
+                
+                // Remove manual overrides so normal attacks work again
+                zoroImg.style.left = "";      
+                zoroImg.style.right = "";     
+                zoroImg.style.transform = ""; 
+                
+                document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
+                document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
+                
+                container.style.opacity = "1";
+                usernameInput.value = "";
+            }, 1000);
+        }, 2500);
+
+        return; // STOP EXECUTION
+    }
+
+
+    // --- EASTER EGG 1: KUINA ---
     if (lowerText === "kuina") {
         document.body.classList.add('dark-mode');
         document.querySelector('#target-box h2').innerText = "I PROMISED...";
@@ -50,17 +102,17 @@ function executeSantoryu() {
             document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
             usernameInput.value = "";
         }, 3000);
-        return; // Stop animation
+        return; 
     }
 
-    // --- EASTER EGG 2: MIHAWK (Fear/Respect) ---
+    // --- EASTER EGG 2: MIHAWK ---
     if (lowerText === "mihawk" || lowerText === "dracule mihawk") {
         document.body.classList.add('dark-mode');
         document.querySelector('#target-box h2').innerText = "TOO STRONG";
         document.querySelector('#target-box p').innerText = "I am not ready yet.";
         
         sfxSheath.volume = 0.5;
-        sfxSheath.play(); // Just a click, no cut
+        sfxSheath.play(); 
 
         setTimeout(() => {
             document.body.classList.remove('dark-mode');
@@ -71,21 +123,21 @@ function executeSantoryu() {
         return; 
     }
 
-    // --- EASTER EGG 3: SANJI (Instant Rage) ---
+    // --- EASTER EGG 3: SANJI ---
     let delay = 1000;
     if (lowerText === "sanji" || lowerText === "cook") {
-        delay = 0; // Instant cut
-        sfxVoice.src = ""; // Silence voice line
+        delay = 0; 
+        sfxVoice.src = ""; 
     } else {
-        // Normal Behavior
         sfxVoice.src = "voice.mp3"; 
         sfxVoice.volume = 1.0;
         sfxVoice.currentTime = 0;
         sfxVoice.play();
     }
 
-    // --- START ANIMATION ---
-    document.body.classList.add('dark-mode'); // Dim lights
+
+    // --- STANDARD ATTACK ---
+    document.body.classList.add('dark-mode'); 
 
     setTimeout(() => {
         sfxSlash.volume = 0.6;
@@ -95,13 +147,12 @@ function executeSantoryu() {
         zoroLayer.style.display = 'block';
         zoroImg.classList.add('zoro-strike');
 
-        // IMPACT (450ms for Perfect Sync with 1.0s Speed)
+        // IMPACT
         setTimeout(() => {
             document.body.classList.add('shake-screen');
             flash.classList.add('flash-active');
             originalBox.style.opacity = '0';
 
-            // Pass originalBox for exact mobile cutting
             createClone(userText, 'anim-top', originalBox);
             createClone(userText, 'anim-bot', originalBox);
             createClone(userText, 'anim-left', originalBox);
@@ -114,7 +165,7 @@ function executeSantoryu() {
 
     }, delay);
 
-    // RESET SEQUENCE
+    // RESET
     setTimeout(() => {
         sfxSheath.volume = 0.8;
         sfxSheath.play();
@@ -133,7 +184,7 @@ function executeSantoryu() {
             document.body.classList.remove('dark-mode');
             flash.classList.remove('flash-active');
             
-            // Reset Text in case Easter Eggs fired
+            // Reset Text
             document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
             document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
             
@@ -149,7 +200,7 @@ function createClone(text, animationClass, originalBox) {
     const div = document.createElement('div');
     div.className = `slice-clone ${animationClass}`;
     
-    // Exact sizing logic
+    // Exact sizing logic for mobile
     const rect = originalBox.getBoundingClientRect();
     div.style.width = rect.width + 'px';
     div.style.height = rect.height + 'px';

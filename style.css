@@ -13,7 +13,7 @@ body {
     align-items: center;
     font-family: 'Roboto Mono', monospace;
     cursor: url('cursor.png'), auto; 
-    transition: background 0.5s; /* Smooth dark transition */
+    transition: background 0.5s; 
 }
 
 /* HAKI PRESSURE (Dark Mode) */
@@ -146,19 +146,18 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
 #zoro-img {
     position: absolute;
     bottom: 0; 
-    left: 100%; /* Mobile Safe: Pushed completely to the right */
+    left: 100%; /* Default Hidden Right */
     height: 500px; max-height: 50vh; 
     filter: drop-shadow(0 0 15px #00ff88); 
-    transform: scaleX(-1);
+    transform: scaleX(-1); /* Face Left (Ready to attack left) */
     will-change: transform;
 }
 
-/* SYNC FIX: 1.0s Speed */
+/* NORMAL ATTACK (Right to Left) */
 .zoro-strike {
     animation: dashAcross 1.0s cubic-bezier(0,0,0.2,1) forwards;
     filter: blur(2px) drop-shadow(0 0 20px #00ff88);
 }
-
 @keyframes dashAcross {
     0% { transform: translateX(0) scaleX(-1); opacity: 0; }
     5% { opacity: 1; }
@@ -166,8 +165,23 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     100% { transform: translateX(-150vw) scaleX(-1); opacity: 0; }
 }
 
+/* --- ZORO LOST (Movement Only - JS handles Position) --- */
+.zoro-lost-anim {
+    /* Just handle the run speed */
+    animation: dashLost 2.5s cubic-bezier(0.2, 0, 0.2, 1) forwards !important;
+    filter: blur(2px) drop-shadow(0 0 20px #00ff88);
+}
 
-/* --- ANIMATIONS & FX --- */
+@keyframes dashLost {
+    0% { transform: translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    80% { opacity: 1; }
+    /* Run to the right */
+    100% { transform: translateX(200vw); opacity: 0; }
+}
+
+
+/* --- FX --- */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 @keyframes shake {
     10%, 90% { transform: translate3d(-10px, 0, 0); }
