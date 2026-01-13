@@ -149,7 +149,7 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     left: 100%; /* Default Hidden Right */
     height: 500px; max-height: 50vh; 
     filter: drop-shadow(0 0 15px #00ff88); 
-    transform: scaleX(-1); /* Face Left (Ready to attack left) */
+    transform: scaleX(-1); /* Face Left */
     will-change: transform;
 }
 
@@ -176,12 +176,12 @@ button:hover { background: white; box-shadow: 0 0 30px #00ff88; transform: scale
     0% { transform: translateX(0); opacity: 0; }
     10% { opacity: 1; }
     80% { opacity: 1; }
-    /* Run to the right */
+    /* Run all the way to the right side */
     100% { transform: translateX(200vw); opacity: 0; }
 }
 
 
-/* --- FX --- */
+/* --- ANIMATIONS & FX --- */
 .shake-screen { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
 @keyframes shake {
     10%, 90% { transform: translate3d(-10px, 0, 0); }

@@ -1,3 +1,12 @@
+// --- SECRET LOGS FOR JUDGES ---
+console.log("%c⚔️ RORONOA ZORO ⚔️", "color: #00ff88; font-size: 20px; font-weight: bold; background: #000; padding: 10px;");
+console.log("%cTry challenging him with these names:", "color: #fff; font-size: 14px;");
+console.log("1. 'Sanji' (He hates the cook)");
+console.log("2. 'Kuina' (The promise)");
+console.log("3. 'Mihawk' (The goal)");
+console.log("4. 'Lost' (He always gets lost...)");
+
+
 // --- 1. PARTICLES ---
 setInterval(createParticle, 100);
 
@@ -184,7 +193,6 @@ function executeSantoryu() {
             document.body.classList.remove('dark-mode');
             flash.classList.remove('flash-active');
             
-            // Reset Text
             document.querySelector('#target-box h2').innerText = "RORONOA ZORO";
             document.querySelector('#target-box p').innerText = "ONLY THE STRONG MAY ENTER.";
             
