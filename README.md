@@ -1,11 +1,7 @@
-This is an excellent, high-level documentation file. It highlights the technical constraints (Vanilla JS, no frameworks) and the intentional design decisions, which are exactly what judges and recruiters look for.
 
-Here is the content formatted as a code block, ready to be pasted into your `README.md` file.
-
-```markdown
 # ZORO — A Borked UI Web Experience
 
-**Live Demo:** [Insert Your Vercel/Netlify Link Here]
+**Live Demo:** https://broked-ui.vercel.app/
 
 **ZORO** is an experimental front-end web project built for the **Borked UI Jam**.  
 The project explores the idea of intentionally broken user interfaces by translating failure and confusion into a literal, visual event: the interface is physically destroyed.
