@@ -146,8 +146,6 @@ cd zoro-borked-ui
 
 ## License
 
-This project is intended for demonstration, learning, and event participation. No commercial use is intended.
-
-```
+This project is licensed under the MIT License.
 
 ```
